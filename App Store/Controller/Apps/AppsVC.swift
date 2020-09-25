@@ -51,7 +51,7 @@ extension AppsVC {
         var appsQueAmamos: AppGrupo?
         var topAppsPagos: AppGrupo?
         var topAppsGratis: AppGrupo?
-        
+
         let dispatchGroup = DispatchGroup()
         
         dispatchGroup.enter()
@@ -83,11 +83,11 @@ extension AppsVC {
             if let apps = appsEmDestaque {
                 self.appsEmDestaque = apps
             }
-            
+                        
             if let apps = appsQueAmamos {
                 self.appsGrupos.append(apps)
             }
-            
+                    
             if let apps = topAppsPagos {
                 self.appsGrupos.append(apps)
             }
@@ -102,61 +102,62 @@ extension AppsVC {
         }
         
     }
-    //    func searchWantedApps() {
-    //        AppsService.shared.searchWantedApps { (apps, err) in
-    //            if let err = err {
-    //                print(err)
-    //                return
-    //            }
-    //
-    //            if let apps = apps {
-    //                DispatchQueue.main.async {
-    //                    self.appsEmDestaque = apps
-    //                    self.collectionView.reloadData()
-    //                }
-    //            }
-    //        }
-    //    }
-    //
+//    func searchWantedApps() {
+//        AppsService.shared.searchWantedApps { (apps, err) in
+//            if let err = err {
+//                print(err)
+//                return
+//            }
+//
+//            if let apps = apps {
+//                DispatchQueue.main.async {
+//                    self.appsEmDestaque = apps
+//                    self.collectionView.reloadData()
+//                }
+//            }
+//        }
+//    }
+//
+}
+
+extension AppsVC {
     
-    extension AppsVC {
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! AppsHeader
         
-        override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! AppsHeader
-            
-            if self.appsEmDestaque.count >= 3 {
-                header.appsEmDestaque = Array(self.appsEmDestaque[0 ..< 3])
-            } else {
-                header.appsEmDestaque = self.appsEmDestaque
-            }
-            
-            header.collectionView.reloadData()
-            return header
+        if self.appsEmDestaque.count >= 3 {
+            header.appsEmDestaque = Array(self.appsEmDestaque[0 ..< 3])
+        } else {
+            header.appsEmDestaque = self.appsEmDestaque
         }
         
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-            return .init(width: view.bounds.width, height: view.bounds.width * 0.8)
-        }
-        
-        // Depois do header
-        
-        override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            return self.appsGrupos.count
-        }
-        
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-            return .init(top: 20, left: 0, bottom: 20, right: 0)
-        }
-        
-        override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! AppsGrupoCell
-            
-            cell.grupo = self.appsGrupos[indexPath.item]
-            
-            return cell
-        }
-        
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            return .init(width: view.bounds.width, height: 280)
-        }
+        header.collectionView.reloadData()
+        return header
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return .init(width: view.bounds.width, height: view.bounds.width * 0.8)
+    }
+    
+    // Depois do header
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.appsGrupos.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return .init(top: 20, left: 0, bottom: 20, right: 0)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! AppsGrupoCell
+        
+        cell.grupo = self.appsGrupos[indexPath.item]
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return .init(width: view.bounds.width, height: 280)
+    }
+}

@@ -12,6 +12,8 @@ class AppsGroupoHorizontalVC: UICollectionViewController, UICollectionViewDelega
     let cellId = "cellId"
     var apps: [App] = []
     
+    var callback: ((App) -> ())?
+    
     init() {
         let layout = SnappingLayout()
         layout.scrollDirection = .horizontal
@@ -58,5 +60,9 @@ extension AppsGroupoHorizontalVC {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.callback?(self.apps[indexPath.item])
     }
 }

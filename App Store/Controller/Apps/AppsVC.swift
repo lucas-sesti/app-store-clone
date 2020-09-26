@@ -153,7 +153,14 @@ extension AppsVC {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! AppsGrupoCell
         
         cell.grupo = self.appsGrupos[indexPath.item]
-        
+        cell.appsGroupoHorizontalVC.callback = { (app) in
+            // Chamando rota
+            let appDetalheVC = AppDetalheVC()
+            appDetalheVC.appId = app.id
+            appDetalheVC.app = app
+            
+            self.navigationController?.pushViewController(appDetalheVC, animated: true)
+        }
         return cell
     }
     
